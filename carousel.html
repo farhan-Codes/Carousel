@@ -18,6 +18,9 @@
         align-items: center;
         overflow:hidden;
         background-color: black;
+        background-repeat: no-repeat;
+        background-size: cover;
+        backdrop-filter: blur(10px);
     }
     #wrapper{
         width:800px;height:700px;
@@ -32,44 +35,47 @@
     .card{
         width:100%;
         height:70%;
-        background:white;
-        border:1px solid black;
         position:relative;
         transition: all .2s;
         scale:1;
-        border-radius:10px;
+        border-radius:20px;
+        border:.5px solid white;
+        box-shadow:0 0 20px black;
     }
     .card img{
         width:100%;
         height:100%;
         object-fit:cover;
         position:absolute;
+        border-radius: inherit;
     }
 </style>
 <body>
     <section id="wrapper">
         <div class="card"><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="none"></div>
-        <div class="card"></div>
-        <div class="card"></div>
-        <div class="card"></div>
+        <div class="card"><img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg" alt="none"></div>
+        <div class="card"><img src="https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.jpg?s=612x612&w=0&k=20&c=6pxwL3JxNV2B_NZSLMZLhrSLqAbyCPlGuSZYKImpjKQ=" alt="none"></div>
+        <div class="card"><img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" alt="none"></div>
     </section>
 </body>
 <script>
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
+    let doc = document.querySelector("body");
     getClose();
     main.addEventListener("scroll",getClose);
 
-    function getClose(){
+    function getClose(){    
        const mainX = getCenter(main);
        for(let i=0;i<cards.length;i++){
         let CardX = getCenter(cards[i]);
         let distance = Math.sqrt((mainX)^2 + (CardX)^2);
         if(distance<15){
-            cards[i].style.scale='1.02';
+            cards[i].style.scale='1.03';
+            doc.style.backgroundImage=`url(${cards[i].children[0].getAttribute("src")})`;
         }
         else{
-            cards[i].style.scale='0.98';
+            cards[i].style.scale='0.96';
         }
        } 
     }
