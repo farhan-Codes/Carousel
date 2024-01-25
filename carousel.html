@@ -61,6 +61,7 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
+    let prevLoc = 0;
     getClose();
     doc.style.backgroundImage=`url(${cards[0].children[0].getAttribute("src")})`;
     main.style.gridTemplateColumns=`repeat(${cards.length},100%)`;
@@ -71,8 +72,9 @@
        const mainX = getCenter(main);
        for(let i=0;i<cards.length;i++){
         let CardX = getCenter(cards[i]);
-        let distance = Math.sqrt((mainX)^2 + (CardX)^2);
-        if(distance<15){
+        let distance = Math.round(Math.sqrt((mainX)^2 + (CardX)^2));
+        scrollFixer(distance);
+        if(distance<=5){
             cards[i].style.scale='1.03';
             doc.style.backgroundImage=`url(${cards[i].children[0].getAttribute("src")})`;
         }
@@ -86,6 +88,26 @@
         let box = element.getBoundingClientRect()
         xCenter=Math.round((box.left + box.right)/2);
         return xCenter;
+    }
+
+    function scrollFixer(dis) {
+        currLoc=main.scrollLeft;
+        if(currLoc>=prevLoc){
+            console.log("Moving Right");
+            prevLoc=currLoc;
+            if(dis>40){
+                let x=0;
+                console.log(true);
+                while(dis>3){
+                    main.scrollLeft+=x;
+                    x++;
+                    console.log(x);
+                }
+            }
+        }
+        else{
+            console.log("Moving Left");
+        }
     }
 </script>
 </html>
