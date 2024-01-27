@@ -80,7 +80,7 @@
        for(let i=0;i<cards.length;i++){
         let CardX = getCenter(cards[i]);
         let distance = Math.round(Math.sqrt((mainX)^2 + (CardX)^2));
-        if(distance<30){
+        if(distance<15){
             cards[i].style.transform="scale(1)";
             doc.style.backgroundImage=`url(${cards[i].children[0].getAttribute("src")})`;
         }
@@ -101,19 +101,22 @@ const container = document.getElementById('scroll-container');
 
 let startX = null;
 
+
 main.addEventListener('touchstart', function(event) {
     // Get the initial touch position
     startX = event.touches[0].clientX;
-    isTouch=true;
 });
 
 main.addEventListener('touchmove', function(event) {
     if (startX) {
         // Calculate the distance moved
         const deltaX = event.touches[0].clientX - startX;
+
+        console.log(event.touches[0].clientX,startX,deltaX)
         
         // Set the scroll position based on the distance moved
-        main.scrollLeft -= deltaX;
+        main.scrollLeft-= deltaX*20;
+        console.log(main.scrollLeft);
 
         // Update the initial touch position
         startX = event.touches[0].clientX;
@@ -126,7 +129,6 @@ main.addEventListener('touchmove', function(event) {
 main.addEventListener('touchend', function() {
     // Reset the initial touch position
     startX = null;
-    isTouch=false;
 });
 
 
