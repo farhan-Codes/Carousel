@@ -66,6 +66,7 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
+    let scrollSpeed = 2; // Adjust this value as needed
     // getClose();
     doc.style.backgroundImage=`url(${cards[0].children[0].getAttribute("src")})`;
 
@@ -91,5 +92,18 @@
         xCenter=Math.round((box.left + box.right)/2);
         return xCenter;
     }
+
+
+    // Function to scroll the content horizontally
+    function scrollHorizontally() {
+        main.scrollBy(scrollSpeed, 0); // Scroll horizontally by the specified speed
+        // You can adjust the scroll direction (scrollSpeed for horizontal, 0 for vertical)
+        if (main.scrollLeft !== main.scrollWidth - main.clientWidth) {
+            // Continue scrolling if not reached the end
+            requestAnimationFrame(scrollHorizontally);
+        }
+    }
+
+
 </script>
 </html>
