@@ -23,23 +23,28 @@
         backdrop-filter: blur(10px);
     }
     #wrapper{
-        width:800px;height:700px;
+        width:100%;height:100%;
         background-color:transparent;
-        display:grid;
+        display: flex;
         align-items: center;
-        overflow-x: scroll;
-        position: relative;
+        flex-direction:row;
+        scroll-snap-type:x mandatory;
         padding:0px 14%;
+        overflow-y: hidden;
+        overflow-x: scroll;
     }
     .card{
         width:100%;
-        height:70%;
-        position:relative;
-        transition: all .2s;
-        scale:1;
+        height:80%;
+        display: inline-block;
+        transform: scale(.9); 
+        transition: transform .2s ease;
         border-radius:20px;
         border:.5px solid white;
-        box-shadow:0 0 20px black;
+        box-shadow:0 0 10px black;
+        scroll-snap-type: mandatory;
+        scroll-snap-align:center;
+        aspect-ratio:10;
     }
     .card img{
         width:100%;
@@ -61,10 +66,8 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
-    let prevLoc = 0;
-    getClose();
+    // getClose();
     doc.style.backgroundImage=`url(${cards[0].children[0].getAttribute("src")})`;
-    main.style.gridTemplateColumns=`repeat(${cards.length},100%)`;
 
     main.addEventListener("scroll",getClose);
 
@@ -73,41 +76,20 @@
        for(let i=0;i<cards.length;i++){
         let CardX = getCenter(cards[i]);
         let distance = Math.round(Math.sqrt((mainX)^2 + (CardX)^2));
-        scrollFixer(distance);
-        if(distance<=5){
-            cards[i].style.scale='1.03';
+        if(distance<30){
+            cards[i].style.transform="scale(1)";
             doc.style.backgroundImage=`url(${cards[i].children[0].getAttribute("src")})`;
         }
         else{
-            cards[i].style.scale='0.96';
+            cards[i].style.transform="scale(.9)";
         }
-       } 
     }
+}
    
     function getCenter(element) {
         let box = element.getBoundingClientRect()
         xCenter=Math.round((box.left + box.right)/2);
         return xCenter;
-    }
-
-    function scrollFixer(dis) {
-        currLoc=main.scrollLeft;
-        if(currLoc>=prevLoc){
-            console.log("Moving Right");
-            prevLoc=currLoc;
-            if(dis>40){
-                let x=0;
-                console.log(true);
-                while(dis>3){
-                    main.scrollLeft+=x;
-                    x++;
-                    console.log(x);
-                }
-            }
-        }
-        else{
-            console.log("Moving Left");
-        }
     }
 </script>
 </html>
