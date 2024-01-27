@@ -66,11 +66,14 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
-    let scrollSpeed = 2; // Adjust this value as needed
+    let isTouch = false;
     // getClose();
     doc.style.backgroundImage=`url(${cards[0].children[0].getAttribute("src")})`;
 
+    if(!isTouch){
     main.addEventListener("scroll",getClose);
+    }
+
 
     function getClose(){    
        const mainX = getCenter(main);
@@ -93,16 +96,38 @@
         return xCenter;
     }
 
+    // Select the container element
+const container = document.getElementById('scroll-container');
 
-    // Function to scroll the content horizontally
-    function scrollHorizontally() {
-        main.scrollBy(scrollSpeed, 0); // Scroll horizontally by the specified speed
-        // You can adjust the scroll direction (scrollSpeed for horizontal, 0 for vertical)
-        if (main.scrollLeft !== main.scrollWidth - main.clientWidth) {
-            // Continue scrolling if not reached the end
-            requestAnimationFrame(scrollHorizontally);
-        }
+let startX = null;
+
+main.addEventListener('touchstart', function(event) {
+    // Get the initial touch position
+    startX = event.touches[0].clientX;
+    isTouch=true;
+});
+
+main.addEventListener('touchmove', function(event) {
+    if (startX) {
+        // Calculate the distance moved
+        const deltaX = event.touches[0].clientX - startX;
+        
+        // Set the scroll position based on the distance moved
+        main.scrollLeft -= deltaX;
+
+        // Update the initial touch position
+        startX = event.touches[0].clientX;
+        
+        // Prevent default touchmove behavior (scrolling)
+        event.preventDefault();
     }
+});
+
+main.addEventListener('touchend', function() {
+    // Reset the initial touch position
+    startX = null;
+    isTouch=false;
+});
 
 
 </script>
