@@ -23,7 +23,7 @@
         backdrop-filter: blur(10px);
     }
     #wrapper{
-        width:100%;height:100%;
+        width:100%;height:80%;
         background-color:transparent;
         display: flex;
         align-items: center;
@@ -32,6 +32,7 @@
         padding:0px 14%;
         overflow-y: hidden;
         overflow-x: scroll;
+        transition:all 5s ease;
     }
     .card{
         width:100%;
@@ -58,6 +59,7 @@
     <section id="wrapper">
         <div class="card"><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="none"></div>
         <div class="card"><img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg" alt="none"></div>
+        <canvas id="Area" width="100%" height="80%" style="border:2px solid red"></canvas>
         <div class="card"><img src="https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.jpg?s=612x612&w=0&k=20&c=6pxwL3JxNV2B_NZSLMZLhrSLqAbyCPlGuSZYKImpjKQ=" alt="none"></div>
         <div class="card"><img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" alt="none"></div>
     </section>
@@ -95,42 +97,6 @@
         xCenter=Math.round((box.left + box.right)/2);
         return xCenter;
     }
-
-    // Select the container element
-const container = document.getElementById('scroll-container');
-
-let startX = null;
-
-
-main.addEventListener('touchstart', function(event) {
-    // Get the initial touch position
-    startX = event.touches[0].clientX;
-});
-
-main.addEventListener('touchmove', function(event) {
-    if (startX) {
-        // Calculate the distance moved
-        const deltaX = event.touches[0].clientX - startX;
-
-        console.log(event.touches[0].clientX,startX,deltaX)
-        
-        // Set the scroll position based on the distance moved
-        main.scrollLeft-= deltaX*20;
-        console.log(main.scrollLeft);
-
-        // Update the initial touch position
-        startX = event.touches[0].clientX;
-        
-        // Prevent default touchmove behavior (scrolling)
-        event.preventDefault();
-    }
-});
-
-main.addEventListener('touchend', function() {
-    // Reset the initial touch position
-    startX = null;
-});
-
 
 </script>
 </html>
