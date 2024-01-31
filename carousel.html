@@ -23,7 +23,7 @@
         backdrop-filter: blur(10px);
     }
     #wrapper{
-        width:100%;height:100%;
+        width:100%;height:80%;
         background-color:transparent;
         display: flex;
         align-items: center;
@@ -32,18 +32,24 @@
         padding:0px 14%;
         overflow-y: hidden;
         overflow-x: scroll;
+        transition:all 5s ease;
     }
     .card{
         width:100%;
         height:80%;
+<<<<<<< HEAD
         display: inline-block;
         transform: scale(.9); 
         transition: transform .2s linear;
+=======
+        position:relative;
+        display: inline-block;      
+        transition:.3s;
+        margin:0px 5px;
+>>>>>>> issue
         border-radius:20px;
         border:.5px solid white;
-        box-shadow:0 0 10px black;
-        scroll-snap-type: mandatory;
-        scroll-snap-align:center;
+        box-shadow:0 0 10px black; 
         aspect-ratio:10;
     }
     .card img{
@@ -52,6 +58,12 @@
         object-fit:cover;
         position:absolute;
         border-radius: inherit;
+    }
+
+    .center{
+        width: 105%;
+        height:90%;
+        z-index:1;
     }
 </style>
 <body>
@@ -66,10 +78,30 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
+<<<<<<< HEAD
     doc.style.background=`url(${cards[0].children[0].getAttribute('src')})`;
+=======
+    
+    main.addEventListener("scroll",()=>{
+        cards.forEach((item)=>{
+            const rect = item.getBoundingClientRect();
+            const carouselRect = main.getBoundingClientRect();
+            const distanceToCenter = Math.abs((carouselRect.width / 2) - (rect.left + rect.width / 2));
+>>>>>>> issue
 
-    main.addEventListener("scroll",getClose);
+            if(distanceToCenter < carouselRect.width / 3) {
+                item.classList.add('center');
+                item.style.scrollSnapAlign="center";
+                doc.style.background=`url(${item.children[0].getAttribute("src")})`;
+             }      
+            else{
+                item.classList.remove('center');
+                item.style.scrollSnapAlign="none";
+            }})
 
+    });
+
+<<<<<<< HEAD
     function getClose(){    
        const mainX = getCenter(main);
        for(let i=0;i<cards.length;i++){
@@ -89,5 +121,7 @@
         xCenter=Math.round((box.left + box.right)/2);
         return xCenter;
     }
+=======
+>>>>>>> issue
 </script>
 </html>
