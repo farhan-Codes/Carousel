@@ -39,11 +39,11 @@
         height:80%;
         position:relative;
         display: inline-block;      
-        transition: transform .2s ease;
-        margin:0px 2px;
+        transition:.3s;
+        margin:0px 5px;
         border-radius:20px;
         border:.5px solid white;
-        box-shadow:0 0 10px black;               
+        box-shadow:0 0 10px black; 
         aspect-ratio:10;
     }
     .card img{
@@ -53,12 +53,17 @@
         position:absolute;
         border-radius: inherit;
     }
+
+    .center{
+        width: 105%;
+        height:90%;
+        z-index:1;
+    }
 </style>
 <body>
     <section id="wrapper">
         <div class="card"><img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="none"></div>
         <div class="card"><img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-james-wheeler-414612.jpg&fm=jpg" alt="none"></div>
-       
         <div class="card"><img src="https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.jpg?s=612x612&w=0&k=20&c=6pxwL3JxNV2B_NZSLMZLhrSLqAbyCPlGuSZYKImpjKQ=" alt="none"></div>
         <div class="card"><img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" alt="none"></div>
     </section>
@@ -67,37 +72,24 @@
     let cards=document.querySelectorAll(".card");
     let main = document.querySelector("#wrapper");
     let doc = document.querySelector("body");
-    let isTouch = false;
-    // getClose();
-    doc.style.backgroundImage=`url(${cards[0].children[0].getAttribute("src")})`;
+    
+    main.addEventListener("scroll",()=>{
+        cards.forEach((item)=>{
+            const rect = item.getBoundingClientRect();
+            const carouselRect = main.getBoundingClientRect();
+            const distanceToCenter = Math.abs((carouselRect.width / 2) - (rect.left + rect.width / 2));
 
-    if(!isTouch){
-    main.addEventListener("scroll",getClose);
-    }
+            if(distanceToCenter < carouselRect.width / 3) {
+                item.classList.add('center');
+                item.style.scrollSnapAlign="center";
+                doc.style.background=`url(${item.children[0].getAttribute("src")})`;
+             }      
+            else{
+                item.classList.remove('center');
+                item.style.scrollSnapAlign="none";
+            }})
 
-
-    function getClose(){    
-       const mainX = getCenter(main);
-       for(let i=0;i<cards.length;i++){
-        let CardX = getCenter(cards[i]);
-        let distance = Math.round(Math.sqrt((mainX)^2 + (CardX)^2));
-        if(distance<5){
-            
-            cards[i].style.scrollSnapAlign="center";
-            doc.style.backgroundImage=`url(${cards[i].children[0].getAttribute("src")})`;
-        }
-        else{
-            
-            cards[i].style.scrollSnapAlign="none";
-        }
-    }
-}
-   
-    function getCenter(element) {
-        let box = element.getBoundingClientRect()
-        xCenter=Math.round((box.left + box.right)/2);
-        return xCenter;
-    }
+    });
 
 </script>
 </html>
